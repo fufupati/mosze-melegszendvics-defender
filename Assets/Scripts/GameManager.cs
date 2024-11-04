@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject enemySpawner;
 
     public enum GameManagerState
     {
@@ -25,9 +26,11 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameManagerState.Gameplay:
+                enemySpawner.GetComponent<EnemySpawner>().ScheduleEnemySpawner();
                 break;
 
             case GameManagerState.GameOver:
+                enemySpawner.GetComponent<EnemySpawner>().UnscheduleEnemySpawner();
                 Invoke("ChangeToOpeningState", 8f);
                 break;
         }

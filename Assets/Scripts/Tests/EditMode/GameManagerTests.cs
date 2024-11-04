@@ -6,17 +6,21 @@ public class GameManagerTests
 {
     private GameObject gameManagerObject;
     private GameManager gameManager;
+    private EnemySpawner enemySpawner;
 
     [SetUp]
     public void Setup()
     {
         gameManagerObject = new GameObject();
         gameManager = gameManagerObject.AddComponent<GameManager>();
+        gameManager.enemySpawner = new GameObject();
+        enemySpawner = gameManager.enemySpawner.AddComponent<EnemySpawner>();
     }
 
     [TearDown]
     public void Teardown()
     {
+        Object.DestroyImmediate(gameManager.enemySpawner);
         Object.DestroyImmediate(gameManagerObject);
     }
 
@@ -38,6 +42,7 @@ public class GameManagerTests
 
         // Assert
         Assert.AreEqual(GameManager.GameManagerState.Gameplay, gameManager.GMState, "GameManager state should be set to Gameplay");
+        Assert.IsTrue(enemySpawner.IsScheduled, "EnemySpawner should be unscheduled when entering GameOver state");
     }
 
     [Test]
@@ -48,6 +53,7 @@ public class GameManagerTests
 
         // Assert
         Assert.AreEqual(GameManager.GameManagerState.GameOver, gameManager.GMState, "GameManager state should be set to GameOver");
+        Assert.IsFalse(enemySpawner.IsScheduled, "EnemySpawner should be unscheduled when entering GameOver state");
     }
 
     [Test]
