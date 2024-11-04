@@ -18,6 +18,8 @@ public class GameManagerTests
         enemySpawner = gameManager.enemySpawner.AddComponent<EnemySpawner>();
         gameManager.playerShip = new GameObject();
         gameManager.playerShip.AddComponent<PlayerControl>();
+        gameManager.scoreUIText = new GameObject();
+        gameManager.scoreUIText.AddComponent<GameScore>();
     }
 
     [TearDown]

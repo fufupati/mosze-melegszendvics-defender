@@ -5,13 +5,15 @@ public class EnemyControl : MonoBehaviour
 {
     float speed;
     public GameObject ExplosionGO;
+    GameObject scoreUITextGO;
 
     public void Start()
     {
         speed=2f;
+        scoreUITextGO = GameObject.FindGameObjectWithTag("ScoreTextTag");
     }
 
-    
+
     public void Update()
     {
         Vector2 position = transform.position;
@@ -31,6 +33,7 @@ public class EnemyControl : MonoBehaviour
     {
         if ((col.tag == "PlayerShipTag") || (col.tag == "PlayerBulletTag"))
         {
+            scoreUITextGO.GetComponent<GameScore>().Score += 100;
             PlayExplosion();
             Destroy(gameObject);
         }

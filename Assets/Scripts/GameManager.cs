@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject enemySpawner;
     public GameObject playerShip;
+    public GameObject scoreUIText;
 
     public enum GameManagerState
     {
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameManagerState.Gameplay:
+                scoreUIText.GetComponent<GameScore>().Score = 0;
                 playerShip.GetComponent<PlayerControl>().Init();
                 enemySpawner.GetComponent<EnemySpawner>().ScheduleEnemySpawner();
                 break;
