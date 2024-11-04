@@ -1,3 +1,4 @@
+using System.Drawing.Text;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ public class GameManagerTests
         gameManager = gameManagerObject.AddComponent<GameManager>();
         gameManager.enemySpawner = new GameObject();
         enemySpawner = gameManager.enemySpawner.AddComponent<EnemySpawner>();
+        gameManager.playerShip = new GameObject();
+        gameManager.playerShip.AddComponent<PlayerControl>();
     }
 
     [TearDown]

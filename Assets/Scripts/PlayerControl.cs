@@ -5,6 +5,8 @@ public class PlayerControl : MonoBehaviour
 {
     const int MaxLives= 3;
     int lives;
+    public GameObject ExplosionGO;
+    public GameObject GameManagerGO;
 
     public void Init(){
         lives = MaxLives;
@@ -15,11 +17,6 @@ public class PlayerControl : MonoBehaviour
     public GameObject PlayerBulletGo;
     public GameObject BulletPosition01;
     public float speed;
-
-    void Start () 
-    {
-
-    }
     
     public void ShootBullet()
     {
@@ -61,5 +58,28 @@ public class PlayerControl : MonoBehaviour
         pos.y = Mathf.Clamp(pos.y, min.y, max.y);
 
         transform.position = pos;
+    }
+
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if ((col.tag == "EnemyShipTag") || (col.tag == "EnemyBulletTag") || (col.tag == "BossBulletTag"))
+        {
+            PlayExplosion();
+
+            lives--;
+
+            if (lives == 0)
+            {
+                GameManagerGO.GetComponent<GameManager>().SetGameManagerState(GameManager.GameManagerState.GameOver);
+                gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void PlayExplosion()
+    {
+        GameObject explosion = (GameObject)Instantiate(ExplosionGO);
+
+        explosion.transform.position = transform.position;
     }
 }

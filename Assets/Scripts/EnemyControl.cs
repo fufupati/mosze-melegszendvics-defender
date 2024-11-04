@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class EnemyControl : MonoBehaviour
 {
-    GameObject scoreUITextGO;
     float speed;
+    public GameObject ExplosionGO;
 
     public void Start()
     {
@@ -25,6 +25,21 @@ public class EnemyControl : MonoBehaviour
          if(transform.position.y < min.y){
             DestroyImmediate(gameObject);
          }
+    }
+
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if ((col.tag == "PlayerShipTag") || (col.tag == "PlayerBulletTag"))
+        {
+            PlayExplosion();
+            Destroy(gameObject);
+        }
+    }
+
+    public void PlayExplosion()
+    {
+        GameObject explosion = (GameObject)Instantiate(ExplosionGO);
+        explosion.transform.position = transform.position;
     }
 }
 

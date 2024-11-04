@@ -6,6 +6,9 @@ public class PlayerControlTests
 {
     private GameObject playerObject;
     private PlayerControl playerControl;
+    private GameObject explosionPrefab;
+    private GameObject gameManagerObject;
+    private GameManager gameManager;
 
     [SetUp]
     public void Setup()
@@ -17,6 +20,17 @@ public class PlayerControlTests
         playerControl.speed = 5.0f;
         playerControl.PlayerBulletGo = new GameObject("Bullet");
         playerControl.BulletPosition01 = new GameObject("BulletPosition");
+
+        explosionPrefab = new GameObject();
+        playerControl.ExplosionGO = explosionPrefab;
+
+        gameManagerObject = new GameObject();
+        gameManager = gameManagerObject.AddComponent<GameManager>();
+        gameManager.enemySpawner = new GameObject();
+        gameManager.enemySpawner.AddComponent<EnemySpawner>();
+
+        playerControl.GameManagerGO = gameManagerObject;
+        
     }
 
     [TearDown]
@@ -77,5 +91,45 @@ public class PlayerControlTests
 
         // Clean up
         Object.DestroyImmediate(bullet);
+    }
+
+    [Test]
+    public void OnTriggerEnter2D_CollidesWithEnemy_DecrementsLivesAndPlaysExplosion()
+    {
+        playerControl.Init();
+        int initialLives = playerControl.GetType().GetField("lives", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(playerControl) as int? ?? 0;
+
+        GameObject enemyObject = new GameObject();
+        enemyObject.tag = "EnemyShipTag";
+        enemyObject.AddComponent<BoxCollider2D>();
+
+        playerControl.OnTriggerEnter2D(enemyObject.GetComponent<Collider2D>());
+
+        var instantiatedExplosion = GameObject.Find(explosionPrefab.name + "(Clone)");
+        int currentLives = playerControl.GetType().GetField("lives", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(playerControl) as int? ?? 0;
+
+        Assert.IsNotNull(instantiatedExplosion, "Explosion should be instantiated upon collision with enemy.");
+        Assert.AreEqual(initialLives - 1, currentLives, "Lives should decrement upon collision with enemy.");
+
+        Object.DestroyImmediate(instantiatedExplosion);
+        Object.DestroyImmediate(enemyObject);
+    }
+
+    [Test]
+    public void OnTriggerEnter2D_LosesAllLives_SetsGameOverState()
+    {
+        playerControl.Init();
+        playerControl.GetType().GetField("lives", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(playerControl, 1);
+
+        GameObject enemyObject = new GameObject();
+        enemyObject.tag = "EnemyShipTag";
+        enemyObject.AddComponent<BoxCollider2D>();
+
+        playerControl.OnTriggerEnter2D(enemyObject.GetComponent<Collider2D>());
+
+        Assert.IsFalse(playerObject.activeSelf, "Player should be inactive when lives reach zero.");
+        Assert.AreEqual(GameManager.GameManagerState.GameOver, gameManager.GMState, "Game state should be set to GameOver when player loses all lives.");
+
+        Object.DestroyImmediate(enemyObject);
     }
 }
