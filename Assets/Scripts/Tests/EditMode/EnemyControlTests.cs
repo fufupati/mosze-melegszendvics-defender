@@ -1,17 +1,22 @@
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 [TestFixture]
 public class EnemyControlTests
 {
     private GameObject enemyObject;
     private EnemyControl enemyControl;
+    private GameObject explosionPrefab;
 
     [SetUp]
     public void Setup()
     {
         enemyObject = new GameObject();
         enemyControl = enemyObject.AddComponent<EnemyControl>();
+
+        explosionPrefab = new GameObject();
+        enemyControl.ExplosionGO = explosionPrefab;
 
         // Ensure the main camera is present for viewport calculations
         if (Camera.main == null)

@@ -368,6 +368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2803b7c656ea74ca9982a2ebd4bc35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionGO: {fileID: 2711702522733214684, guid: 79392d8e16979bf4384752e3e7a623b5, type: 3}
+  GameManagerGO: {fileID: 2134915876}
   PlayerBulletGo: {fileID: 7392000593962936816, guid: bcff7f0cb2d8b704da7882985bca0ce0, type: 3}
   BulletPosition01: {fileID: 501397504}
   speed: 6
@@ -614,6 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 1113800856}
+  playerShip: {fileID: 1003119229}
   GMState: 1
 --- !u!4 &2134915878
 Transform:

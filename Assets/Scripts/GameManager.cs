@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject enemySpawner;
+    public GameObject playerShip;
 
     public enum GameManagerState
     {
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameManagerState.Gameplay:
+                playerShip.GetComponent<PlayerControl>().Init();
                 enemySpawner.GetComponent<EnemySpawner>().ScheduleEnemySpawner();
                 break;
 
