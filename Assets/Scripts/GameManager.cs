@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     public GameObject enemySpawner;
     public GameObject playerShip;
     public GameObject scoreUIText;
+    public GameObject bossShip;
 
     public enum GameManagerState
     {
@@ -25,12 +26,15 @@ public class GameManager : MonoBehaviour
         switch (GMState)
         {
             case GameManagerState.Opening:
+                bossShip.GetComponent<bossSpawner>().ResetBoss();
                 break;
 
             case GameManagerState.Gameplay:
                 scoreUIText.GetComponent<GameScore>().Score = 0;
                 playerShip.GetComponent<PlayerControl>().Init();
                 enemySpawner.GetComponent<EnemySpawner>().ScheduleEnemySpawner();
+                // Boss resetelése a játékmenet elején
+                bossShip.GetComponent<bossSpawner>().ResetBoss();
                 break;
 
             case GameManagerState.GameOver:
