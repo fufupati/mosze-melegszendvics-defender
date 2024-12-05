@@ -7,11 +7,13 @@ public class PlayerControl : MonoBehaviour
     int lives;
     public GameObject ExplosionGO;
     public GameObject GameManagerGO;
+    public Text LivesUIText;
 
     public void Init(){
         lives = MaxLives;
         transform.position = new Vector2(0,0);
         gameObject.SetActive(true);
+        LivesUIText.text = lives.ToString();
     }
 
     public GameObject PlayerBulletGo;
@@ -67,6 +69,7 @@ public class PlayerControl : MonoBehaviour
             PlayExplosion();
 
             lives--;
+            LivesUIText.text = lives.ToString();
 
             if (lives == 0)
             {

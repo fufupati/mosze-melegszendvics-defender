@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
     public GameObject playerShip;
     public GameObject scoreUIText;
     public GameObject bossShip;
+    public GameObject gameTitle;
+    public GameObject playButton;
+    public GameObject gameOver;
 
     public enum GameManagerState
     {
@@ -27,9 +30,14 @@ public class GameManager : MonoBehaviour
         {
             case GameManagerState.Opening:
                 bossShip.GetComponent<bossSpawner>().ResetBoss();
+                playButton.SetActive(true);
+                gameTitle.SetActive(true);
+                gameOver.SetActive(false);
                 break;
 
             case GameManagerState.Gameplay:
+                playButton.SetActive(false);
+                gameTitle.SetActive(false);
                 scoreUIText.GetComponent<GameScore>().Score = 0;
                 playerShip.GetComponent<PlayerControl>().Init();
                 enemySpawner.GetComponent<EnemySpawner>().ScheduleEnemySpawner();
@@ -38,6 +46,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameManagerState.GameOver:
+                gameOver.SetActive(true);
                 enemySpawner.GetComponent<EnemySpawner>().UnscheduleEnemySpawner();
                 Invoke("ChangeToOpeningState", 8f);
                 break;
