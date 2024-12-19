@@ -2,14 +2,19 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject enemySpawner;
-    public GameObject playerShip;
-    public GameObject scoreUIText;
-    public GameObject bossShip;
-    public GameObject gameTitle;
     public GameObject playButton;
-    public GameObject gameOver;
+    public GameObject playerShip;
+    public GameObject enemySpawner;
+    public GameObject bossShip;
+
     public GameObject SecondbossShip;
+    public GameObject GameOverGO;
+    public GameObject scoreUITextGo;
+    public GameObject TimeCounterGO;
+    public GameObject GameTitleGO;
+    public GameObject Upgradebutton1;
+    public GameObject Upgradebutton2;
+
     public GameObject Asteroid;
 
     public enum GameManagerState
@@ -23,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
+        GMState = GameManagerState.Opening;
         UpdateGameManagerState();
     }
 
@@ -31,33 +37,42 @@ public class GameManager : MonoBehaviour
         switch (GMState)
         {
             case GameManagerState.Opening:
-                bossShip.GetComponent<bossSpawner>().ResetBoss();
+                GameOverGO.SetActive(false);
                 playButton.SetActive(true);
-                gameTitle.SetActive(true);
-                gameOver.SetActive(false);
-                SecondbossShip.SetActive(false);
+                GameTitleGO.SetActive(true);
+                Upgradebutton1.SetActive(true);
+                 Upgradebutton2.SetActive(true);
+                 SecondbossShip.SetActive(false);
+                 bossShip.SetActive(false);
+
                 break;
 
             case GameManagerState.Gameplay:
-                SecondbossShip.SetActive(true);
+              SecondbossShip.SetActive(true);
+                 bossShip.SetActive(true);
+                scoreUITextGo.GetComponent<GameScore>().Score = 0;
                 playButton.SetActive(false);
-                gameTitle.SetActive(false);
-                scoreUIText.GetComponent<GameScore>().Score = 0;
                 playerShip.GetComponent<PlayerControl>().Init();
                 enemySpawner.GetComponent<EnemySpawner>().ScheduleEnemySpawner();
                 Asteroid.GetComponent<AsteroidSpawner>().ScheduleEnemySpawner();
+                TimeCounterGO.GetComponent<TimeCounter>().StartTimeCounter();
+                GameTitleGO.SetActive(false);
+                Upgradebutton1.SetActive(false);
+                 Upgradebutton2.SetActive(false);
 
-                // Boss resetelése a játékmenet elején
+                
                 bossShip.GetComponent<bossSpawner>().ResetBoss();
                 SecondbossShip.GetComponent<SecondBossSpawner>().ResetSecondBoss();
 
                 break;
 
             case GameManagerState.GameOver:
-                gameOver.SetActive(true);
-                SecondbossShip.SetActive(false);
+                TimeCounterGO.GetComponent<TimeCounter>().StopTimeCounter();
                 enemySpawner.GetComponent<EnemySpawner>().UnscheduleEnemySpawner();
                 Asteroid.GetComponent<AsteroidSpawner>().UnscheduleEnemySpawner();
+                SecondbossShip.SetActive(false);
+                 bossShip.SetActive(false);
+                GameOverGO.SetActive(true);
                 Invoke("ChangeToOpeningState", 8f);
                 break;
         }
@@ -67,6 +82,12 @@ public class GameManager : MonoBehaviour
     {
         GMState = state;
         UpdateGameManagerState();
+
+        if (state == GameManagerState.Opening)
+        {
+            bossShip.GetComponent<bossSpawner>().ResetBoss();
+            SecondbossShip.GetComponent<SecondBossSpawner>().ResetSecondBoss();
+        }
     }
 
     public void StartGamePlay()

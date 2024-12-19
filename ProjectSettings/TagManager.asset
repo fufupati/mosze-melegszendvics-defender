@@ -9,6 +9,12 @@ TagManager:
   - EnemyShipTag
   - EnemyBulletTag
   - ScoreTextTag
+  - BossShipTag
+  - BossBulletTag
+  - SecondBossBulletTag
+  - SecondBossShipTag
+  - Asteroid
+  - CurrencyTextTag
   layers:
   - Default
   - TransparentFX

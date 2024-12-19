@@ -3,25 +3,50 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
-    const int MaxLives= 3;
-    int lives;
-    public GameObject ExplosionGO;
-    public GameObject GameManagerGO;
     public Text LivesUIText;
+    const int MaxLives = 3;
+    int lives;
 
-    public void Init(){
+    public void Init()
+    {
         lives = MaxLives;
-        transform.position = new Vector2(0,0);
-        gameObject.SetActive(true);
         LivesUIText.text = lives.ToString();
+        transform.position = new Vector2(0, 0);
+        gameObject.SetActive(true);
     }
 
     public GameObject PlayerBulletGo;
     public GameObject BulletPosition01;
+    public GameObject GameManagerGO;
+    public GameObject ExplosionGO;
     public float speed;
 
     private float lastFireTime = 0f;
     public float fireCooldown = 1.5f; // 1.5 seconds default cooldown
+
+    // Reference to the Currency script
+    public Currency playerCurrency;
+
+    // Add a public method to increase speed
+    public void IncreaseSpeed()
+    {
+        if (playerCurrency.Score >= 500)  // Check if currency is at least 500
+        {
+            if (playerCurrency.DeductPoints(500))  // Deduct 500 from currency
+            {
+                speed = Mathf.Min(10f, speed + 1f); // Increase speed but limit it to a max value (e.g., 10)
+                Debug.Log("Speed increased! Current speed: " + speed);
+            }
+        }
+        else
+        {
+            Debug.Log("Not enough currency to increase speed.");
+        }
+    }
+
+    void Start()
+    {
+    }
 
     public void ShootBullet()
     {
@@ -30,8 +55,9 @@ public class PlayerControl : MonoBehaviour
         bullet01.transform.position = BulletPosition01.transform.position;
     }
 
-    void Update()
+    public void Update()
     {
+        // Fire bullet when spacebar is pressed
         if (Input.GetKeyDown("space") && Time.time > lastFireTime + fireCooldown)
         {
             lastFireTime = Time.time;
@@ -69,10 +95,9 @@ public class PlayerControl : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D col)
     {
-        if ((col.tag == "EnemyShipTag") || (col.tag == "EnemyBulletTag") || (col.tag == "BossBulletTag"))
+        if ((col.tag == "EnemyShipTag") || (col.tag == "EnemyBulletTag") || (col.tag == "BossBulletTag") || (col.tag == "Asteroid") || (col.tag == "SecondBossBulletTag"))
         {
             PlayExplosion();
-
             lives--;
             LivesUIText.text = lives.ToString();
 
@@ -87,7 +112,22 @@ public class PlayerControl : MonoBehaviour
     public void PlayExplosion()
     {
         GameObject explosion = (GameObject)Instantiate(ExplosionGO);
-
         explosion.transform.position = transform.position;
+    }
+
+
+    public void IncreaseFireRate()
+    {
+        if (playerCurrency.Score >= 500)  
+        {
+            if (playerCurrency.DeductPoints(500))  
+            {
+                fireCooldown = Mathf.Max(0.1f, fireCooldown - 0.2f); 
+            }
+        }
+        else
+        {
+            Debug.Log("Not enough currency to increase fire rate.");
+        }
     }
 }
