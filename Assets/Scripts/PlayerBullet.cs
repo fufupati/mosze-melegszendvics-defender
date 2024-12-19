@@ -44,5 +44,15 @@ public class PlayerBullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (col.tag == "SecondBossShipTag")
+        {
+            Destroy(gameObject);
+        }
+
+        if (col.tag == "Asteroid")
+        {
+            Destroy(gameObject);
+        }
     }
 }
