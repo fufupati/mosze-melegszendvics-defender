@@ -223,7 +223,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1514484631
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -838023379, guid: 6d066fce26fda7b47b4c13acc135b342, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -334,7 +334,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1514484631
+  m_SortingLayerID: -772188417
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300006, guid: 8aeb9e233fbb8f14db39770841b78b94, type: 3}
@@ -410,6 +410,9 @@ MonoBehaviour:
   scoreUITextGo: {fileID: 0}
   ExplosionGO: {fileID: 8038344524183138613, guid: 0277167a12290af47801444830a2be97, type: 3}
   BigExplosionGO: {fileID: 4794043405585894037, guid: 37138c0c33167b04fa1fb90b7f5a794f, type: 3}
+  enemySpawner: {fileID: 0}
+  Asteroid: {fileID: 0}
+  CurrencyUITextGO: {fileID: 0}
 --- !u!1 &6802492184895357173
 GameObject:
   m_ObjectHideFlags: 0

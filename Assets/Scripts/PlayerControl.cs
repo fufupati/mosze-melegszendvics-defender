@@ -19,17 +19,22 @@ public class PlayerControl : MonoBehaviour
     public GameObject PlayerBulletGo;
     public GameObject BulletPosition01;
     public float speed;
-    
+
+    private float lastFireTime = 0f;
+    public float fireCooldown = 1.5f; // 1.5 seconds default cooldown
+
     public void ShootBullet()
     {
+        GetComponent<AudioSource>().Play();
         GameObject bullet01 = (GameObject)Instantiate(PlayerBulletGo);
         bullet01.transform.position = BulletPosition01.transform.position;
     }
 
     void Update()
     {
-        if(Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("space") && Time.time > lastFireTime + fireCooldown)
         {
+            lastFireTime = Time.time;
             ShootBullet();
         }
 

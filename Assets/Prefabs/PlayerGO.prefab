@@ -106,8 +106,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1514484631
-  m_SortingLayer: 0
+  m_SortingLayerID: -772188417
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300030, guid: 8d18f6d2b73e89b4882fbf3bb5aedb4b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -132,6 +132,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2803b7c656ea74ca9982a2ebd4bc35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionGO: {fileID: 0}
+  GameManagerGO: {fileID: 0}
+  LivesUIText: {fileID: 0}
   PlayerBulletGo: {fileID: 7392000593962936816, guid: bcff7f0cb2d8b704da7882985bca0ce0, type: 3}
   BulletPosition01: {fileID: 1624813634359739855}
   speed: 6

@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1514484631
+  m_SortingLayerID: -772188417
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300098, guid: 8d18f6d2b73e89b4882fbf3bb5aedb4b, type: 3}
@@ -169,9 +169,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   descentDistance: 2
   descentSpeed: 1
-  scoreUITextGo: {fileID: 6940874690286902871, guid: be8cbfd7a2aa96d4c996dcca95378257, type: 3}
   ExplosionGO: {fileID: 4794043405585894037, guid: 37138c0c33167b04fa1fb90b7f5a794f, type: 3}
   BigExplosionGO: {fileID: 8038344524183138613, guid: 0277167a12290af47801444830a2be97, type: 3}
+  hitPoints: 50
+  scoreValue: 1000
+  hitScoreValue: 100
+  deathScoreValue: 1000
 --- !u!1 &3715908419791129496
 GameObject:
   m_ObjectHideFlags: 0
