@@ -4,21 +4,19 @@ public class bossSpawner : MonoBehaviour
 {
     public float descentDistance = 1.0f;
     public float descentSpeed = 1.0f;
+    public GameObject scoreUITextGo;
     public GameObject ExplosionGO;
     public GameObject BigExplosionGO;
-    public int hitPoints = 50;
-    public int scoreValue = 1000;
-    public int hitScoreValue = 100;
-    public int deathScoreValue = 1000;
+
+    public GameObject CurrencyUITextGO;
 
     private Vector3 targetPosition;
     private Vector3 initialPosition;
     private bool hasDescended = false;
     private int hitCount = 0;
     private bool isDestroyed = false;
-    private GameObject scoreUITextGo;
 
-    void Start()
+    public void Start()
     {
         scoreUITextGo = GameObject.FindGameObjectWithTag("ScoreTextTag");
         initialPosition = transform.position;
@@ -28,11 +26,11 @@ public class bossSpawner : MonoBehaviour
         ResetBoss();
     }
 
-    void Update()
+    public void Update()
     {
         int currentScore = scoreUITextGo.GetComponent<GameScore>().Score;
 
-        if (currentScore >= scoreValue && !hasDescended && !isDestroyed)
+        if (currentScore >= 1000 && !hasDescended && !isDestroyed)
         {
             hasDescended = true;
         }
@@ -43,43 +41,47 @@ public class bossSpawner : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    public void OnTriggerEnter2D(Collider2D col)
     {
         if ((col.tag == "PlayerShipTag" || col.tag == "PlayerBulletTag") && !isDestroyed)
         {
             PlayExplosion();
-            scoreUITextGo.GetComponent<GameScore>().Score += hitScoreValue;
+            scoreUITextGo.GetComponent<GameScore>().Score += 100;
+            CurrencyUITextGO.GetComponent<Currency>().Score += 100;
+            
 
             hitCount++;
 
-            if (hitCount >= hitPoints)
+            if (hitCount >= 15)
             {
                 isDestroyed = true;
                 hasDescended = false;
                 Invoke("PlayBigExplosion", 0f);
                 Invoke("PlayBigExplosion", 0.5f);
-                Invoke("PlayBigExplosion", 1f);
                
-                scoreUITextGo.GetComponent<GameScore>().Score += deathScoreValue;
+               
+                scoreUITextGo.GetComponent<GameScore>().Score += 1000;
+                CurrencyUITextGO.GetComponent<Currency>().Score += 1000;
                 
+
                 foreach (Transform child in transform)
                 {
                     child.gameObject.SetActive(false);
                 }
                 
-                gameObject.SetActive(false); // Boss eltűnik a képernyőről
+                gameObject.SetActive(false); 
             }
         }
     }
 
-    void PlayExplosion()
+    public void PlayExplosion()
     {
         GameObject explosion = Instantiate(ExplosionGO);
         explosion.transform.position = transform.position;
         Destroy(explosion, 2.0f);
     }
 
-    void PlayBigExplosion()
+    public void PlayBigExplosion()
     {
         GameObject explosion = Instantiate(BigExplosionGO);
         explosion.transform.position = transform.position;
@@ -91,9 +93,9 @@ public class bossSpawner : MonoBehaviour
         hitCount = 0;
         hasDescended = false;
         isDestroyed = false;
-        // Set the boss back to the starting position (off-screen)
+     
         transform.position = new Vector3(initialPosition.x, initialPosition.y + descentDistance + 5.0f, initialPosition.z);
-        gameObject.SetActive(true); // Boss újra megjelenik
+        gameObject.SetActive(true); 
     
         foreach (Transform child in transform)
         {
